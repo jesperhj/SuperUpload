@@ -12,17 +12,24 @@ class Uploader < Sinatra::Application
         }
   end
   
+  #############################################################################
+  # Display upload form
+  #############################################################################
   get '/' do
     @transfer_id = Guid.new.to_s
     erb :index
   end
   
+  #############################################################################
+  # Logic when receiving description
+  # Return filename and path if upload is finished otherwise return a default
+  # message
+  #############################################################################
   post '/description' do
     content_type :json
     
     transfer_id = params[:transfer_id]
     
-    # Is the uploaded file in 
     if transfer_status(transfer_id) == 100
       filename  = filename_in_transfer transfer_id
       path      = Dir.getwd+'/ '+settings.upload_folder
@@ -44,6 +51,9 @@ class Uploader < Sinatra::Application
     end
   end
   
+  #############################################################################
+  # Status of an ongoing upload
+  #############################################################################
   get '/transfer_status/:transfer_id' do
     content_type :json
     
@@ -57,6 +67,11 @@ class Uploader < Sinatra::Application
     }.to_json
   end
   
+  #############################################################################
+  # Save the uploaded file.
+  # As we upload in an iframe and check status through AJAX, we dont
+  # resond with anything useful here.
+  #############################################################################
   post '/upload' do
     upload_file = params['upload_file']
     
@@ -79,6 +94,10 @@ class Uploader < Sinatra::Application
     '' # we dont return anything here more, after switching from html5 to iframe
   end
   
+  #############################################################################
+  # After an upload is finished this recource delievers the name and path
+  # of the uploaded file
+  #############################################################################
   get '/post_upload_info/:transfer_id' do
     content_type :json
     
@@ -104,7 +123,10 @@ class Uploader < Sinatra::Application
     
   end
   
+  #############################################################################
+  # Get the name of the uploaded file
   # Return filename of transfer, nil if filename could not be found
+  #############################################################################
   def filename_in_transfer(transfer_id)
     begin
       f = File.open("/tmp/uploader_file-#{transfer_id}", 'r')
@@ -122,6 +144,9 @@ class Uploader < Sinatra::Application
     end
   end
   
+  #############################################################################
+  # Logic for checking upload progess
+  #############################################################################
   def transfer_status(transfer_id)
     begin
       f = File.open("/tmp/uploader_file-#{transfer_id}", 'r')
@@ -142,6 +167,9 @@ class Uploader < Sinatra::Application
     percent.to_i
   end
   
+  #############################################################################
+  # Generic function for returing error messages
+  #############################################################################
   def exit_with_error(error_code)
     unless settings.error_messages.keys.include? error_code
       error_code = :generic_error
@@ -155,6 +183,9 @@ class Uploader < Sinatra::Application
     }.to_json
   end
   
+  #############################################################################
+  # Save the actual file to the correct place
+  #############################################################################
   def save_file(upload_file, filename)
     full_path_to_file = settings.upload_folder + '/' + filename
     File.open(full_path_to_file, "w") do |f|

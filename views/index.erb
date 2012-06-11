@@ -10,6 +10,8 @@
 
   <h1>SuperUpload</h1>
   
+  <div id="error_message"></div>
+  
   <form id="upload_form" name="upload_form" action="upload" method="POST" enctype="multipart/form-data" >
     <div id="main">
     <input name="file-<%= @transfer_id %>" id="file-<%= @transfer_id %>" type="file" onchange="uploadFile();" />

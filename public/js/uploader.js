@@ -7,12 +7,16 @@ function uploadFile() {
       if (xmlhttp.readyState==4 && xmlhttp.status==200) {
         res = eval("(" + xmlhttp.responseText + ")");
         
-        document.getElementById("status").innerHTML='Status: '+res.result.status+'%';
+        if (res.error != null) {
+          showError(res.error.message);
+        } else {
+          document.getElementById("status").innerHTML='Status: '+res.result.status+'%';
         
-        if(res.result.status == '100' || res.result.status == 100) {
-          document.getElementById("status").innerHTML='Status: 100%';
-          clearInterval(upload_progress);
-          getPostUploadInfo();
+          if(res.result.status == '100' || res.result.status == 100) {
+            document.getElementById("status").innerHTML='Status: 100%';
+            clearInterval(upload_progress);
+            getPostUploadInfo();
+          }
         }
       }
     };
@@ -32,8 +36,13 @@ function getPostUploadInfo() {
   xmlhttp.onreadystatechange=function() {
     if (xmlhttp.readyState==4 && xmlhttp.status==200) {
       res = eval("(" + xmlhttp.responseText + ")");
-      var stored_file = document.getElementById("stored_file");
-      stored_file.innerHTML = 'Uploaded to: '+res.result.path+'/'+res.result.filename;
+      
+      if (res.error != null) {
+        showError(res.error.message);
+      } else {
+        var stored_file = document.getElementById("stored_file");
+        stored_file.innerHTML = 'Uploaded to: '+res.result.path+'/'+res.result.filename;
+      }
     }
   };
   transfer_id = document.getElementById('transfer_id').value;
@@ -48,9 +57,13 @@ function saveDescriptionWithAjax() {
     if (xmlhttpDescription.readyState==4 && xmlhttpDescription.status==200) {
       res = eval("(" + xmlhttpDescription.responseText + ")");
       
-      document.getElementById("title_from_respons").innerHTML       = res.result.filename;
-      document.getElementById("path_from_respons").innerHTML        = res.result.path;
-      showDescriptionRespons();
+      if (res.error != null) {
+        showError(res.error.message);
+      } else {
+        document.getElementById("title_from_respons").innerHTML       = res.result.filename;
+        document.getElementById("path_from_respons").innerHTML        = res.result.path;
+        showDescriptionRespons();
+      }
     }
   };
   description = document.getElementById('description').value;
@@ -76,4 +89,10 @@ function showDescriptionRespons() {
 function hideUploadForm() {
   var upload_form = document.getElementById('upload_form'); 
   upload_form.style.display = 'none';
+}
+
+function showError(msg) {
+  var error_message = document.getElementById('error_message');
+  error_message.style.display = 'block';
+  error_message.innerHTML = msg;
 }

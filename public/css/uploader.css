@@ -25,9 +25,11 @@ form {
   width: 420px;
 }
 
-div#errormsg {
-  color: red;
+div#error_message {
+  color: #f00;
   font-size: 120%;
+  display:none;
+  margin-bottom: 10px;
 }
 
 div#progress div {
