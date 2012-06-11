@@ -22,6 +22,7 @@ Was first thinking about using a memory table in MySQL instead of the temporary 
 As backend is more my cup of tea, I thought about using Bootstrap [1] to beautify the page, but as this would require a dependency, I chose to go with the "raw" look.
 
 [0] : http://code.macournoyer.com/thin/
+
 [1] : http://twitter.github.com/bootstrap/
 
 # INSTALL #
