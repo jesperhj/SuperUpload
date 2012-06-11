@@ -1,98 +1,79 @@
-/*function fileSelected() {
-  var file = document.getElementById('upload_file').files[0];
-  if (file) {
-    var fileSize = 0;
-    if (file.size > 1024 * 1024)
-      fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
-    else
-      fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
-          
-    document.getElementById('fileName').innerHTML = 'Name: ' + file.name;
-    document.getElementById('fileSize').innerHTML = 'Size: ' + fileSize;
-    document.getElementById('fileType').innerHTML = 'Type: ' + file.type;
-  }
-}*/
-
-function saveDescription() {
-  var description = document.getElementById('description');
-  
-  var fd = new FormData();
-  fd.append("description", description.value);
-  
-  var xhr = new XMLHttpRequest();
-  xhr.addEventListener("load", saveComplete, false);
-  xhr.addEventListener("error", saveFailed, false);
-  xhr.open("POST", "/description");
-  xhr.send(fd);
-}
-
-function saveComplete(evt) {
-  alert(evt.target.responseText);
-}
-
-function saveFailed(evt) {
-  showError("Error. Could not save description!");
-}
+var upload_progress;
 
 function uploadFile() {
-  var fd = new FormData();
-  fd.append("upload_file", document.getElementById('upload_file').files[0]);
-  var xhr = new XMLHttpRequest();
-  xhr.upload.addEventListener("progress", uploadProgress, false);
-  xhr.addEventListener("load", uploadComplete, false);
-  xhr.addEventListener("error", uploadFailed, false);
-  xhr.addEventListener("abort", uploadCanceled, false);
-  xhr.open("POST", "/upload");
-  xhr.send(fd);
-  
-  document.getElementById('errormsg').style.display = 'none';
-
-  showDescriptionBox();
+  upload_progress = setInterval(function() {
+    xmlhttp=new XMLHttpRequest(); // we dont support < IE7
+    xmlhttp.onreadystatechange=function() {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+        res = eval("(" + xmlhttp.responseText + ")");
+        
+        document.getElementById("status").innerHTML='Status: '+res.result.status+'%';
+        
+        if(res.result.status == '100' || res.result.status == 100) {
+          document.getElementById("status").innerHTML='Status: 100%';
+          clearInterval(upload_progress);
+          getPostUploadInfo();
+        }
+      }
+    };
+    transfer_id = document.getElementById('transfer_id').value;
+    xmlhttp.open("GET","transfer_status/"+transfer_id+"?rand="+ Math.random(),true);
+    xmlhttp.send();
+     
+  }, 1000);
+  document.getElementById('upload_form').target = 'upload_iframe';
+  document.getElementById('upload_form').submit();
+  showDescriptionForm();
+  hideUploadForm();
 }
 
-function uploadProgress(evt) {
-  var status = document.getElementById('status');
-  
-  if (evt.lengthComputable) {
-    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-    status.innerHTML  = 'Status: ' + percentComplete.toString() + '%';
-    status.className  = '';
-  } 
-  else {
-    status.innerHTML  = 'Cant calculate status.';
-    status.className  = 'error';
-  }
+function getPostUploadInfo() {
+  xmlhttp=new XMLHttpRequest(); // we dont support < IE7
+  xmlhttp.onreadystatechange=function() {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+      res = eval("(" + xmlhttp.responseText + ")");
+      var stored_file = document.getElementById("stored_file");
+      stored_file.innerHTML = 'Uploaded to: '+res.result.path+'/'+res.result.filename;
+    }
+  };
+  transfer_id = document.getElementById('transfer_id').value;
+  xmlhttp.open("GET","post_upload_info/"+transfer_id+"?rand="+ Math.random(),true);
+  xmlhttp.send();
 }
 
-function uploadComplete(evt) {
-  var res = eval("(" + evt.target.responseText + ")");
-  
-  if(res.error != null) {
-    showError(res.error.message);
-  } else {
-    document.getElementById('stored_file').innerHTML = 'Uploaded to' +  res.result.stored_folder+'/'+res.result.stored_filename;
-  }
+
+function saveDescriptionWithAjax() {
+  xmlhttpDescription=new XMLHttpRequest(); // we dont support < IE7
+  xmlhttpDescription.onreadystatechange=function() {
+    if (xmlhttpDescription.readyState==4 && xmlhttpDescription.status==200) {
+      res = eval("(" + xmlhttpDescription.responseText + ")");
+      
+      document.getElementById("title_from_respons").innerHTML       = res.result.filename;
+      document.getElementById("path_from_respons").innerHTML        = res.result.path;
+      showDescriptionRespons();
+    }
+  };
+  description = document.getElementById('description').value;
+  transfer_id = document.getElementById('transfer_id').value;
+  xmlhttpDescription.open("POST","description?description="+description+"&transfer_id="+transfer_id+"&rand="+ Math.random(),true);
+  xmlhttpDescription.send();
 }
 
-function uploadFailed(evt) {
-  showError("Error. Something went wrong!");
+function saveDescription() {
+  saveDescriptionWithAjax();
 }
 
-function uploadCanceled(evt) {
-  showError("Error. Conenction lost or upload canceled!");
+function showDescriptionForm() {
+  var description_form = document.getElementById('description_form'); 
+  description_form.style.display = 'block';
 }
 
-function showDescriptionBox() {
-  var description = document.getElementById('description');
-  var save        = document.getElementById('save');
-  
-  description.style.display = 'block';
-  save.style.display        = 'block';
+function showDescriptionRespons() {
+  var description_respons = document.getElementById('description_respons'); 
+  description_respons.style.display = 'block';
 }
 
-function showError(msg) {
-  var error = document.getElementById('error');
-
-  error.style.display = 'block';
-  error.innerHTML = msg;
+function hideUploadForm() {
+  var upload_form = document.getElementById('upload_form'); 
+  upload_form.style.display = 'none';
 }

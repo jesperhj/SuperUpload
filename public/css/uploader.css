@@ -18,11 +18,13 @@ h1 {
   padding-left: 10px;
 }
 
+iframe {
+  display: none;
+}
 form {
   text-align: left;
   width: 420px;
   padding: 10px;
-  /*border: 1px solid black;*/
 }
 
 div#errormsg {
@@ -34,23 +36,14 @@ div#stored_file {
  font-size:80%; 
 }
 
-#description {
+form#description_form {
+  display: none;
+}
+
+#description_respons {
   display: none;
 }
 
 #save {
-  display: none;
-  float: right;
+  /*float: right;*/
 }
-
-iframe {
-  border: 1px solid red;
-}
-/*div {
-  border-style: solid;
-  border-width: 1px;
-  border-color: #000;
-  margin: 2px;
-  padding: 2px;
-}
-*/

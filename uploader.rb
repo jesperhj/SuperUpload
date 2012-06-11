@@ -14,7 +14,7 @@ class Uploader < Sinatra::Application
   
   get '/' do
     @transfer_id = Guid.new.to_s
-    erb :v2
+    erb :index
   end
   
   post '/description' do
@@ -57,7 +57,7 @@ class Uploader < Sinatra::Application
     }.to_json
   end
   
-  post '/v2_upload' do
+  post '/upload' do
     upload_file = params['upload_file']
     # TODO better ruby
     params.each do |p|
