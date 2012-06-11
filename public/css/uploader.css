@@ -7,7 +7,7 @@
 }
 
 body {
-  padding: 10px;
+  padding: 20px;
 }
 
 h1 {
@@ -15,7 +15,6 @@ h1 {
   font-family: georgia, arial;
   font-weight: normal;
   padding-bottom: 10px;
-  padding-left: 10px;
 }
 
 iframe {
@@ -24,7 +23,6 @@ iframe {
 form {
   text-align: left;
   width: 420px;
-  padding: 10px;
 }
 
 div#errormsg {
@@ -32,16 +30,32 @@ div#errormsg {
   font-size: 120%;
 }
 
-div#stored_file {
- font-size:80%; 
+div#progress div {
+  margin-bottom: 10px;
+}
+
+div#progress div#stored_file {
+  font-size:80%; 
 }
 
 form#description_form {
   display: none;
+  margin: 20px 0px;
 }
 
 #description_respons {
   display: none;
+}
+
+#description_respons th {
+  width: 50px;
+  text-align:left;
+  vertical-align:bottom;
+  font-weight: bold;
+}
+
+#description_respons td {
+  text-align:left;
 }
 
 #save {

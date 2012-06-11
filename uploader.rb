@@ -113,7 +113,6 @@ class Uploader < Sinatra::Application
       f.close
       
       res = info['filename'].match /(.*\\){0,1}(.*)$/
-      pp res
       if !res.nil?
         res[2]
       else
@@ -131,19 +130,14 @@ class Uploader < Sinatra::Application
       f.close
       
       if File.exist?(info['path'])
-        puts "temp fanns ej"
         current_size = File.size(info['path'])
         percent = (current_size.to_f/info['size'].to_f)*100
       elsif File.exist?(settings.upload_folder + '/' + filename_in_transfer(transfer_id))
-        puts "orginal fanns"
         percent = 100
       else
-        puts "ingen fil fanns"
         percent = 0
       end
     rescue Exception => e
-      puts "error i transfer_status"
-      pp e.message
       percent = 0
     end
     percent.to_i
