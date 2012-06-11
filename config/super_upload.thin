@@ -1,0 +1,17 @@
+--- 
+pid: /tmp/thin_super_upload.pid
+address: 0.0.0.0
+wait: 30
+port: 6000
+timeout: 30
+log: /var/log/thin_super_upload.log
+max_conns: 1024
+require: []
+
+environment: production
+max_persistent_conns: 512
+daemonize: true
+servers: 3
+chdir: /srv/apps/super_upload/current
+
+rackup: /srv/apps/super_upload/current/config.ru
