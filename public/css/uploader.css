@@ -1,0 +1,56 @@
+* {
+  margin-bottom: 10px;
+}
+
+.error {
+  color: red;
+}
+
+body {
+  padding: 10px;
+}
+
+h1 {
+  font-size: 24px;
+  font-family: georgia, arial;
+  font-weight: normal;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+
+form {
+  text-align: left;
+  width: 420px;
+  padding: 10px;
+  /*border: 1px solid black;*/
+}
+
+div#errormsg {
+  color: red;
+  font-size: 120%;
+}
+
+div#stored_file {
+ font-size:80%; 
+}
+
+#description {
+  display: none;
+}
+
+#save {
+  display: none;
+  float: right;
+}
+
+iframe {
+  border: 1px solid red;
+}
+/*div {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #000;
+  margin: 2px;
+  padding: 2px;
+}
+*/

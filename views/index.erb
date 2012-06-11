@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SuperUpload</title>
+  
+  <link rel="stylesheet" type="text/css" href="/css/reset.css" />
+  <link rel="stylesheet" type="text/css" href="/css/uploader.css" />
+  <script type="text/javascript" src="/js/uploader.js"></script>
+</head>
+
+<body>
+  <h1>SuperUpload</h1>
+  
+  <div id="errormsg"></div>
+  <iframe id="progress_iframe" src="" style="display:none;" scrolling="no" frameborder="0"></iframe>
+  <form id="upload_form" enctype="multipart/form-data" method="post" action="/upload" target="uploader">
+    <input type="hidden" id="form_id" value="<%= @form_id %>" />
+    
+    <input type="file" name="upload_file" id="upload_file" onchange="uploadFile();" />
+    
+    <div id="progress">
+      <!--Status: <span id="number"></span> Uploaded to <span id="stored_file"></span>-->
+      <div id="status"></div>
+      <div id="stored_file"></div>      
+    </div>
+    
+    <textarea id="description" rows="5" cols="60"></textarea>
+    
+    <input id="save" type="button" onclick="saveDescription()" value="save" />    
+  </form>
+</body>
+
+</html>

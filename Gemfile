@@ -1,0 +1,10 @@
+source 'http://gemcutter.org'
+
+gem 'sinatra', :require => 'sinatra'
+gem 'thin'
+gem 'rake'
+gem 'json'
+gem 'capistrano'
+gem 'capistrano-ext'
+gem 'erubis'
+gem 'guid'

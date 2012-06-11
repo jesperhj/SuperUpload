@@ -1,0 +1,49 @@
+* {
+  margin-bottom: 10px;
+}
+
+.error {
+  color: red;
+}
+
+body {
+  padding: 10px;
+}
+
+h1 {
+  font-size: 24px;
+  font-family: georgia, arial;
+  font-weight: normal;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+
+iframe {
+  display: none;
+}
+form {
+  text-align: left;
+  width: 420px;
+  padding: 10px;
+}
+
+div#errormsg {
+  color: red;
+  font-size: 120%;
+}
+
+div#stored_file {
+ font-size:80%; 
+}
+
+form#description_form {
+  display: none;
+}
+
+#description_respons {
+  display: none;
+}
+
+#save {
+  /*float: right;*/
+}
