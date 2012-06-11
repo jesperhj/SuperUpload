@@ -59,7 +59,7 @@ class Uploader < Sinatra::Application
   
   post '/upload' do
     upload_file = params['upload_file']
-    # TODO better ruby
+    
     params.each do |p|
        upload_file = p[1] if p[0].match(/file-/) && !p[0][1].nil?
     end
@@ -76,7 +76,6 @@ class Uploader < Sinatra::Application
       #exit_with_error :error_saving
     end
     
-    # TODO error handling
     '' # we dont return anything here more, after switching from html5 to iframe
   end
   
