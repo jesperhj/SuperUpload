@@ -1,0 +1,39 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          thin
+# Required-Start:    $local_fs $remote_fs
+# Required-Stop:     $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      S 0 1 6
+# Short-Description: thin initscript
+# Description:       thin
+### END INIT INFO
+
+# Original author: Forrest Robertson
+
+# Do NOT "set -e"
+
+PROJECT=super_upload
+DEPLOY_PATH=/srv/apps/$PROJECT/current
+CONFIG_PATH=/etc/thin/$PROJECT.thin
+
+# Exit if the package is not installed
+#[ -x "$DAEMON" ] || exit 0
+
+case "$1" in
+  start)
+        cd $DEPLOY_PATH && bundle exec thin start -d -C $CONFIG_PATH
+	;;
+  stop)
+        cd $DEPLOY_PATH && bundle exec thin stop -d -C $CONFIG_PATH
+	;;
+  restart)
+        cd $DEPLOY_PATH && bundle exec thin restart -d -C $CONFIG_PATH
+	;;
+  *)
+	echo "Usage: $SCRIPT_NAME {start|stop|restart}" >&2
+	exit 3
+	;;
+esac
+
+:

@@ -1,4 +1,4 @@
-upstream upload {
+upstream uploader {
   server 0.0.0.0:6000;
   server 0.0.0.0:6001;
   server 0.0.0.0:6002;
